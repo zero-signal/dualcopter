@@ -1,0 +1,3 @@
+[submodule "src/mwsp"]
+	path = src/mwsp
+	url = git@github.com:zero-signal/mwsp.git
