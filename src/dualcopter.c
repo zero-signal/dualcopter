@@ -25,6 +25,7 @@
 #include <string.h>
 
 #include "mwsp/mwsp.h"
+#include "mwsp/mwsp_util.h"
 
 void usage(char *argv[]) {
     fprintf(stderr, "Usage: %s -s <serial_port>\n", argv[0]);
@@ -54,6 +55,10 @@ int main(int argc, char *argv[])
         }
     }
 
+    /*------------------------------------------------------*/
+
+    printf("Connecting to flight controller\n");
+
     /* connect the flight controller */
     fd = mwsp_connect(serial_port);
     if(fd < 0){
@@ -61,23 +66,9 @@ int main(int argc, char *argv[])
         exit(-1);
     }
 
-    /* do some stuff with the flight controller */
-    int ret;
+    /*------------------------------------------------------*/
 
-    /* ACC calibration */
-    ret = mwsp_send_request(fd, 0, MWSP_ACC_CALIBRATION);
-    printf("[+] Wrote %d bytes to the flight controller for ACC calibration.\n", ret);
-
-    sleep(2);
-
-    /* MAG calibration
-    ret = mwsp_send_request(fd, 0, MWSP_MAG_CALIBRATION);
-    printf("[+] Wrote %d bytes to the flight controller for MAG calibration.\n", ret);
-    */
-
-    /* MWSP_IDENT request */
-    mwsp_ident ident;
-    ret = mwsp_req_ident(fd, &ident);
+    printf("Disconnecting from flight controller\n");
 
     /* disconnect the flight controller */
     if(mwsp_disconnect(fd) < 0){
